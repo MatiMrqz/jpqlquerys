@@ -64,6 +64,15 @@ public class FacturaManager {
         return facturas;
     }
 
+    public List<Factura> buscarFacturasFrom(LocalDate fechaInicio){
+        String jpql = "FROM Factura WHERE fechaComprobante >=:fechaInicio";
+        Query query = em.createQuery(jpql);
+        query.setParameter("fechaInicio", fechaInicio);
+
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
     public Factura getFacturaXPtoVentaXNroComprobante(Integer puntoVenta, Long nroComprobante){
         String jpql = "FROM Factura WHERE puntoVenta = :puntoVenta AND nroComprobante = :nroComprobante";
         Query query = em.createQuery(jpql);

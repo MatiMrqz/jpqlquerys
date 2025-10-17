@@ -14,6 +14,7 @@ public class MainConsultasJPQL {
 
     public static void main(String[] args) {
         buscarClientes();
+        facturasUltimoMes();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -131,6 +132,19 @@ public class MainConsultasJPQL {
         try {
             Long nroCompMax = mFactura.getMaxNroComprobanteFactura();
             System.out.println("N° " + nroCompMax);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void facturasUltimoMes(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            LocalDate ultMes = LocalDate.now().minusMonths(1);
+            List<Factura> facturas = mFactura.buscarFacturasFrom(ultMes);
+            mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally {
