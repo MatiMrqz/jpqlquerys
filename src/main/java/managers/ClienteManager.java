@@ -47,6 +47,12 @@ public class ClienteManager {
         return clientes;
     }
 
+    public List<Cliente> getClientes(){
+        Query query = em.createQuery("SELECT DISTINCT(cliente) FROM Cliente cliente ORDER BY cliente.razonSocial ASC");
+        List<Cliente> clientes = query.getResultList();
+        return clientes;
+    }
+
     public void cerrarEntityManager(){
         em.close();
         emf.close();

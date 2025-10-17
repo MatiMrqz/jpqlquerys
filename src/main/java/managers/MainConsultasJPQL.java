@@ -13,8 +13,7 @@ import java.util.List;
 public class MainConsultasJPQL {
 
     public static void main(String[] args) {
-        //REPOSITORIO-> https://github.com/gerardomagni/jpqlquerys.git
-
+        buscarClientes();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -146,6 +145,24 @@ public class MainConsultasJPQL {
             idsClientes.add(1l);
             idsClientes.add(2l);
             List<Cliente> clientes = mCliente.getClientesXIds(idsClientes);
+            for(Cliente cli : clientes){
+                System.out.println("Id: " + cli.getId());
+                System.out.println("CUIT: " + cli.getCuit());
+                System.out.println("Razon Social: " + cli.getRazonSocial());
+                System.out.println("-----------------");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mCliente.cerrarEntityManager();
+        }
+    }
+
+    public static void buscarClientes(){
+        ClienteManager mCliente = new ClienteManager(true);
+        try {
+            List<Cliente> clientes = mCliente.getClientes();
             for(Cliente cli : clientes){
                 System.out.println("Id: " + cli.getId());
                 System.out.println("CUIT: " + cli.getCuit());
