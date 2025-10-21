@@ -141,6 +141,14 @@ public class FacturaManager {
         return articulos;
     }
 
+    public List<Articulo> getArticulosXFactura(Long idFactura){
+        StringBuilder jpql = new StringBuilder("SELECT fd.articulo FROM FacturaDetalle fd");
+        jpql.append(" WHERE fd.factura.id = :idFactura");
+        Query query = em.createQuery(jpql.toString());
+        query.setParameter("idFactura", idFactura);
+        return query.getResultList();
+    }
+
     public Long getMaxNroComprobanteFactura(){ //MAX, MIN, COUNT, AVG, SUM
         StringBuilder jpql = new StringBuilder("SELECT MAX(nroComprobante) FROM Factura WHERE fechaBaja IS NULL");
         Query query = em.createQuery(jpql.toString());
