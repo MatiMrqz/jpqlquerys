@@ -18,6 +18,7 @@ public class MainConsultasJPQL {
         clienteMaxCantFacturas();
         articulosMasVendidos();
         buscarFacturasUlt3MesesXCliente();
+        montoFacturadoXCliente();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -231,6 +232,18 @@ public class MainConsultasJPQL {
             ex.printStackTrace();
         }finally {
             mCliente.cerrarEntityManager();
+        }
+    }
+
+    public static void montoFacturadoXCliente(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            Double total = mFactura.getMontoFacturadoXCliente(1L);
+            System.out.println("Total Facturado Cliente 1: $" + total);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
         }
     }
 

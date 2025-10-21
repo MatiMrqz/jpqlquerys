@@ -125,6 +125,14 @@ public class FacturaManager {
         return facturas;
     }
 
+    public Double getMontoFacturadoXCliente(Long idCliente){
+        StringBuilder jpql = new StringBuilder("SELECT SUM(f.total) FROM Factura f ");
+        jpql.append("WHERE f.cliente.id = :idCliente");
+        Query query = em.createQuery(jpql.toString());
+        query.setParameter("idCliente", idCliente);
+        return (Double) query.getSingleResult();
+    }
+
     public List<Articulo> getArticulosMasVendidos(){
         String jpql = "SELECT fd.articulo FROM FacturaDetalle fd GROUP BY (fd.articulo) ORDER BY SUM(fd.cantidad) DESC ";
         Query query = em.createQuery(jpql);
