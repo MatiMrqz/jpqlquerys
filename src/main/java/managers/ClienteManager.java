@@ -53,6 +53,15 @@ public class ClienteManager {
         return clientes;
     }
 
+    public Cliente getClienteMaxCantFacturas(){
+        String jpql = "SELECT f.cliente\n" +
+                "FROM Factura f\n" +
+                "GROUP BY f.cliente\n" +
+                "ORDER BY COUNT(f) DESC";
+        Query query = em.createQuery(jpql);
+        return (Cliente) query.setMaxResults(1).getResultList().get(0);
+    }
+
     public void cerrarEntityManager(){
         em.close();
         emf.close();

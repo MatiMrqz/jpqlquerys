@@ -15,6 +15,7 @@ public class MainConsultasJPQL {
     public static void main(String[] args) {
         buscarClientes();
         facturasUltimoMes();
+        clienteMaxCantFacturas();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -183,6 +184,22 @@ public class MainConsultasJPQL {
                 System.out.println("Razon Social: " + cli.getRazonSocial());
                 System.out.println("-----------------");
             }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mCliente.cerrarEntityManager();
+        }
+    }
+
+    public static void clienteMaxCantFacturas(){
+        ClienteManager mCliente = new ClienteManager(true);
+        try {
+            Cliente cli = mCliente.getClienteMaxCantFacturas();
+                System.out.println("Id: " + cli.getId());
+                System.out.println("CUIT: " + cli.getCuit());
+                System.out.println("Razon Social: " + cli.getRazonSocial());
+                System.out.println("-----------------");
 
         } catch (Exception ex) {
             ex.printStackTrace();
