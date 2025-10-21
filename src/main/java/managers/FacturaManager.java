@@ -1,6 +1,8 @@
 package managers;
 
+import funciones.FuncionApp;
 import org.example.Articulo;
+import org.example.Cliente;
 import org.example.Factura;
 
 import javax.persistence.EntityManager;
@@ -50,6 +52,16 @@ public class FacturaManager {
         String jpql = "FROM Factura WHERE nroComprobante = :nroComprobante";
         Query query = em.createQuery(jpql);
         query.setParameter("nroComprobante", nroComprobante);
+
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
+    public List<Factura> getFacturasUlt3MesesXCliente(Long clienteId){
+        String jpql = "FROM Factura f WHERE f.cliente.id = :cId AND f.fechaComprobante >= :fechaInicial";
+        Query query = em.createQuery(jpql);
+        query.setParameter("cId", clienteId);
+        query.setParameter("fechaInicial", LocalDate.now().minusMonths(3));
 
         List<Factura> facturas = query.getResultList();
         return facturas;

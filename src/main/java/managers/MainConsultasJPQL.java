@@ -17,6 +17,7 @@ public class MainConsultasJPQL {
         facturasUltimoMes();
         clienteMaxCantFacturas();
         articulosMasVendidos();
+        buscarFacturasUlt3MesesXCliente();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -97,6 +98,18 @@ public class MainConsultasJPQL {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXCliente(7l);
+            mostrarFacturas(facturas);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void buscarFacturasUlt3MesesXCliente(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Factura> facturas = mFactura.getFacturasUlt3MesesXCliente(1l);
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
