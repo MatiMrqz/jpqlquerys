@@ -1,5 +1,6 @@
 package managers;
 
+import org.example.Articulo;
 import org.example.Factura;
 
 import javax.persistence.EntityManager;
@@ -110,6 +111,14 @@ public class FacturaManager {
 
         List<Factura> facturas = query.getResultList();
         return facturas;
+    }
+
+    public List<Articulo> getArticulosMasVendidos(){
+        String jpql = "SELECT fd.articulo FROM FacturaDetalle fd GROUP BY (fd.articulo) ORDER BY SUM(fd.cantidad) DESC ";
+        Query query = em.createQuery(jpql);
+
+        List<Articulo> articulos = query.getResultList();
+        return articulos;
     }
 
     public Long getMaxNroComprobanteFactura(){ //MAX, MIN, COUNT, AVG, SUM

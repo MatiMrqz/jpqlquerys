@@ -16,6 +16,7 @@ public class MainConsultasJPQL {
         buscarClientes();
         facturasUltimoMes();
         clienteMaxCantFacturas();
+        articulosMasVendidos();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -121,6 +122,18 @@ public class MainConsultasJPQL {
         try {
             List<Factura> facturas = mFactura.getFacturasXArticulo(6l);
             mostrarFacturas(facturas);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void articulosMasVendidos(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Articulo> articulos = mFactura.getArticulosMasVendidos();
+            mostrarArticulos(articulos);
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally {
@@ -248,6 +261,29 @@ public class MainConsultasJPQL {
                 System.out.println(detalle.getArticulo().getDenominacion() + ", " + detalle.getCantidad() + " unidades, $" + FuncionApp.getFormatMilDecimal(detalle.getSubTotal(), 2));
             }
             System.out.println("Total: $" + FuncionApp.getFormatMilDecimal(fact.getTotal(),2));
+            System.out.println("*************************");
+        }
+    }
+
+    public static void mostrarArticulos(List<Articulo> articulos) {
+        for (Articulo art : articulos) {
+            System.out.println("ID: " + art.getId());
+            System.out.println("Código: " + art.getCodigo());
+            System.out.println("Denominación: " + art.getDenominacion());
+
+            // Usamos el mismo formateador de moneda que en tu ejemplo
+            System.out.println("Precio Venta: $" + FuncionApp.getFormatMilDecimal(art.getPrecioVenta(), 2));
+
+            // Replicamos el formato para un objeto relacionado (como Cliente en Factura)
+            if (art.getUnidadMedida() != null) {
+                // Asumo que UnidadMedida tiene un método .getDenominacion() y .getId()
+                // similar a como Cliente tiene .getRazonSocial() y .getId()
+                System.out.println("Unidad de Medida: " + art.getUnidadMedida().getDenominacion() + " (" + art.getUnidadMedida().getId() + ")");
+            } else {
+                System.out.println("Unidad de Medida: (No especificada)");
+            }
+
+            // Separador final
             System.out.println("*************************");
         }
     }
