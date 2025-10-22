@@ -106,6 +106,15 @@ public class FacturaManager {
         return facturas;
     }
 
+    public List<Factura> getFacturasPorMontoMinimo(Double montoMinimo){
+        String jpql = "FROM Factura WHERE total >= :montoMinimo ORDER BY total ASC";
+        Query query = em.createQuery(jpql);
+        query.setParameter("montoMinimo", montoMinimo);
+
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
     public List<Factura> getFacturasXCuitCliente(String cuitCliente){
         String jpql = "FROM Factura WHERE cliente.cuit = :cuitCliente";
         Query query = em.createQuery(jpql);

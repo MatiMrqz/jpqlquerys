@@ -22,6 +22,7 @@ public class MainConsultasJPQL {
         articulosXFactura();
         articuloMasCaroXFactura();
         cantidadTotalFacturas();
+        buscarFacturasXMontoMinimo();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -102,6 +103,18 @@ public class MainConsultasJPQL {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Factura> facturas = mFactura.getFacturasXCliente(7l);
+            mostrarFacturas(facturas);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void buscarFacturasXMontoMinimo(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Factura> facturas = mFactura.getFacturasPorMontoMinimo(100D);
             mostrarFacturas(facturas);
         } catch (Exception ex) {
             ex.printStackTrace();
