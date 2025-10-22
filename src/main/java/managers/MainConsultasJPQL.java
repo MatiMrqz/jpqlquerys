@@ -3,9 +3,6 @@ package managers;
 import funciones.FuncionApp;
 import org.example.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 public class MainConsultasJPQL {
 
     public static void main(String[] args) {
+        //Metodos TP
         buscarClientes();
         facturasUltimoMes();
         clienteMaxCantFacturas();
@@ -28,6 +26,7 @@ public class MainConsultasJPQL {
         buscarArticulosXCodigo();
         articulosConPrecioMayorAlPromedio();
         articulosNoVendidos();
+        //Metodos preexistentes
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();

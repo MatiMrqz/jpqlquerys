@@ -2,7 +2,6 @@ package managers;
 
 import funciones.FuncionApp;
 import org.example.Cliente;
-import org.example.Factura;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
