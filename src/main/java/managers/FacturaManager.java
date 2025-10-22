@@ -134,6 +134,16 @@ public class FacturaManager {
         return facturas;
     }
 
+    public List<Factura> getFacturasXNombreArticulo(String nombreArticulo){ //INNER JOIN, LEFT JOIN, LEFT OUTER JOIN, etc
+        StringBuilder jpql = new StringBuilder("SELECT DISTINCT fact FROM Factura AS fact LEFT OUTER JOIN fact.detallesFactura AS detalle");
+        jpql.append(" WHERE LOWER(detalle.articulo.denominacion) LIKE :nombreArticulo");
+        Query query = em.createQuery(jpql.toString());
+        query.setParameter("nombreArticulo", "%"+nombreArticulo.toLowerCase()+"%");
+
+        List<Factura> facturas = query.getResultList();
+        return facturas;
+    }
+
     public Double getMontoFacturadoXCliente(Long idCliente){
         StringBuilder jpql = new StringBuilder("SELECT SUM(f.total) FROM Factura f ");
         jpql.append("WHERE f.cliente.id = :idCliente");
