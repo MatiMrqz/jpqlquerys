@@ -166,6 +166,14 @@ public class FacturaManager {
         return maxNroFactura;
     }
 
+    public Long getCantFacturas(){ //MAX, MIN, COUNT, AVG, SUM
+        StringBuilder jpql = new StringBuilder("SELECT COUNT(f) FROM Factura f WHERE fechaBaja IS NULL");
+        Query query = em.createQuery(jpql.toString());
+
+        Long maxNroFactura = (Long) query.getSingleResult();
+        return maxNroFactura;
+    }
+
     public void cerrarEntityManager(){
         em.close();
         emf.close();

@@ -21,6 +21,7 @@ public class MainConsultasJPQL {
         montoFacturadoXCliente();
         articulosXFactura();
         articuloMasCaroXFactura();
+        cantidadTotalFacturas();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -187,6 +188,18 @@ public class MainConsultasJPQL {
         try {
             Long nroCompMax = mFactura.getMaxNroComprobanteFactura();
             System.out.println("N° " + nroCompMax);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void cantidadTotalFacturas(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            Long nroCompMax = mFactura.getCantFacturas();
+            System.out.println("N° total de facturas:" + nroCompMax);
         } catch (Exception ex) {
             ex.printStackTrace();
         }finally {
