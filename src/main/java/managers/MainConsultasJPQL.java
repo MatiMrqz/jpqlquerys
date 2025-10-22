@@ -24,6 +24,7 @@ public class MainConsultasJPQL {
         cantidadTotalFacturas();
         buscarFacturasXMontoMinimo();
         buscarFacturasXNombreArticulo();
+        buscarArticulosXNombre();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -334,7 +335,17 @@ public class MainConsultasJPQL {
         }
     }
 
-
+    public static void buscarArticulosXNombre(){
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try {
+            List<Articulo> articulos = mArticulo.getArticulosXNombre("manza");
+            mostrarArticulos(articulos);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mArticulo.cerrarEntityManager();
+        }
+    }
 
     public static void mostrarFactura(Factura factura){
         List<Factura> facturas = new ArrayList<>();
