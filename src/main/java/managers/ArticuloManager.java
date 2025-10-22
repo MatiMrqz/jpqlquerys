@@ -43,6 +43,12 @@ public class ArticuloManager {
         return query.getResultList();
     }
 
+    public List<Articulo> getArticulosPrecioMayorAlPromedio(){
+        String jpql = "FROM Articulo art WHERE art.precioVenta > (SELECT AVG(art2.precioVenta) FROM Articulo art2)";
+        Query query = em.createQuery(jpql);
+        return query.getResultList();
+    }
+
     public void cerrarEntityManager(){
         em.close();
         emf.close();
