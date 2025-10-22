@@ -49,6 +49,12 @@ public class ArticuloManager {
         return query.getResultList();
     }
 
+    //Obtener todos los Artículos que nunca han sido incluidos en un detalle de factura (es decir, artículos sin ventas).
+    public List<Articulo> getArticulosNoVendidos(){
+        String jpql = "SELECT a FROM Articulo a WHERE NOT EXISTS (SELECT fd FROM FacturaDetalle fd WHERE fd.articulo = a)";
+        Query query = em.createQuery(jpql);
+        return query.getResultList();
+    }
     public void cerrarEntityManager(){
         em.close();
         emf.close();

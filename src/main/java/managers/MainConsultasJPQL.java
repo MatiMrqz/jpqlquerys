@@ -27,6 +27,7 @@ public class MainConsultasJPQL {
         buscarArticulosXNombre();
         buscarArticulosXCodigo();
         articulosConPrecioMayorAlPromedio();
+        articulosNoVendidos();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -365,6 +366,18 @@ public class MainConsultasJPQL {
         ArticuloManager mArticulo = new ArticuloManager(true);
         try {
             List<Articulo> articulos = mArticulo.getArticulosPrecioMayorAlPromedio();
+            mostrarArticulos(articulos);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mArticulo.cerrarEntityManager();
+        }
+    }
+
+    public static void articulosNoVendidos(){
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try {
+            List<Articulo> articulos = mArticulo.getArticulosNoVendidos();
             mostrarArticulos(articulos);
         } catch (Exception ex) {
             ex.printStackTrace();
