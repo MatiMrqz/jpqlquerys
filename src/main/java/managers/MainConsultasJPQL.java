@@ -20,6 +20,7 @@ public class MainConsultasJPQL {
         buscarFacturasUlt3MesesXCliente();
         montoFacturadoXCliente();
         articulosXFactura();
+        articuloMasCaroXFactura();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -160,6 +161,19 @@ public class MainConsultasJPQL {
         FacturaManager mFactura = new FacturaManager(true);
         try {
             List<Articulo> articulos = mFactura.getArticulosXFactura(2L);
+            mostrarArticulos(articulos);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mFactura.cerrarEntityManager();
+        }
+    }
+
+    public static void articuloMasCaroXFactura(){
+        FacturaManager mFactura = new FacturaManager(true);
+        try {
+            List<Articulo> articulos = new ArrayList<>();
+            articulos.add(mFactura.getArticuloMasCaroXFactura(1L));
             mostrarArticulos(articulos);
         } catch (Exception ex) {
             ex.printStackTrace();

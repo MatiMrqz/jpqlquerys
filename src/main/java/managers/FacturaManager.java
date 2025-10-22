@@ -149,6 +149,15 @@ public class FacturaManager {
         return query.getResultList();
     }
 
+    public Articulo getArticuloMasCaroXFactura(Long idFactura){
+        StringBuilder jpql = new StringBuilder("SELECT fd.articulo FROM FacturaDetalle fd");
+        jpql.append(" WHERE fd.factura.id = :idFactura");
+        jpql.append(" ORDER BY fd.articulo.precioVenta DESC");
+        Query query = em.createQuery(jpql.toString());
+        query.setParameter("idFactura", idFactura);
+        return (Articulo) query.setMaxResults(1).getSingleResult();
+    }
+
     public Long getMaxNroComprobanteFactura(){ //MAX, MIN, COUNT, AVG, SUM
         StringBuilder jpql = new StringBuilder("SELECT MAX(nroComprobante) FROM Factura WHERE fechaBaja IS NULL");
         Query query = em.createQuery(jpql.toString());
