@@ -36,6 +36,12 @@ public class ArticuloManager {
         return query.getResultList();
     }
 
+    public List<Articulo> getArticulosXCodigo(String codigoArticulo){
+        String jpql = "FROM Articulo WHERE LOWER(codigo) LIKE :codigoArticulo";
+        Query query = em.createQuery(jpql);
+        query.setParameter("codigoArticulo", "%"+codigoArticulo.toLowerCase()+"%");
+        return query.getResultList();
+    }
 
     public void cerrarEntityManager(){
         em.close();

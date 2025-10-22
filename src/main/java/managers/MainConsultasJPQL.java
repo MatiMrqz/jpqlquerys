@@ -25,6 +25,7 @@ public class MainConsultasJPQL {
         buscarFacturasXMontoMinimo();
         buscarFacturasXNombreArticulo();
         buscarArticulosXNombre();
+        buscarArticulosXCodigo();
         //buscarFacturas();
         //buscarFacturasActivas();
         //buscarFacturasXNroComprobante();
@@ -339,6 +340,18 @@ public class MainConsultasJPQL {
         ArticuloManager mArticulo = new ArticuloManager(true);
         try {
             List<Articulo> articulos = mArticulo.getArticulosXNombre("manza");
+            mostrarArticulos(articulos);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            mArticulo.cerrarEntityManager();
+        }
+    }
+
+    public static void buscarArticulosXCodigo(){
+        ArticuloManager mArticulo = new ArticuloManager(true);
+        try {
+            List<Articulo> articulos = mArticulo.getArticulosXCodigo("345");
             mostrarArticulos(articulos);
         } catch (Exception ex) {
             ex.printStackTrace();
