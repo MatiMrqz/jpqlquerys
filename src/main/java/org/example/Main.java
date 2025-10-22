@@ -7,9 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,7 +49,7 @@ public class Main {
 
             // Crear una nueva entidad ArticuloInsumo en estado "nueva"
             ArticuloInsumo articuloInsumo = ArticuloInsumo.builder()
-                    .denominacion("Manzana").codigo(Long.toString(new Date().getTime()))
+                    .denominacion("Manzana").codigo("123456")
                     .precioCompra(1.5)
                     .precioVenta(5d)
                     .stockActual(100)
@@ -62,10 +60,20 @@ public class Main {
 
 
             ArticuloInsumo articuloInsumoPera = ArticuloInsumo.builder()
-                    .denominacion("Pera").codigo(Long.toString(new Date().getTime()))
+                    .denominacion("Pera").codigo("123455")
                     .precioCompra(2.5)
                     .precioVenta(10d)
                     .stockActual(130)
+                    .stockMaximo(200)
+                    .esParaElaborar(true)
+                    .unidadMedida(unidadMedida)
+                    .build();
+
+            ArticuloInsumo articuloInsumoBanana = ArticuloInsumo.builder()
+                    .denominacion("Banana").codigo("6543")
+                    .precioCompra(2.5)
+                    .precioVenta(50d)
+                    .stockActual(10)
                     .stockMaximo(200)
                     .esParaElaborar(true)
                     .unidadMedida(unidadMedida)
@@ -75,17 +83,14 @@ public class Main {
 
             em.persist(articuloInsumo);
             em.persist(articuloInsumoPera);
+            em.persist(articuloInsumoBanana);
 
             Imagen manza1 = Imagen.builder().denominacion("Manzana Verde").
                     build();
             Imagen manza2 = Imagen.builder().denominacion("Manzana Roja").
                     build();
-
             Imagen pera1 = Imagen.builder().denominacion("Pera Verde").
                     build();
-            Imagen pera2 = Imagen.builder().denominacion("Pera Roja").
-                    build();
-
 
 
 
@@ -145,6 +150,13 @@ public class Main {
                     .razonSocial("Juan Perez")
                     .build();
             em.persist(cliente);
+
+            Cliente cliente1 = Cliente.builder()
+                    .cuit(FuncionApp.generateRandomCUIT())
+                    .razonSocial("Fulano Detal")
+                    .build();
+            em.persist(cliente);
+            em.persist(cliente1);
             em.getTransaction().commit();
 
             //creo y guardo una factura
@@ -156,6 +168,9 @@ public class Main {
             detalle2.calcularSubTotal();
             FacturaDetalle detalle3 = new FacturaDetalle(3, articuloManufacturado);
             detalle3.calcularSubTotal();
+
+            FacturaDetalle detalle1_2 = new FacturaDetalle(10, articuloInsumo);
+            detalle1.calcularSubTotal();
 
             Factura factura = Factura.builder()
                     .puntoVenta(2024)
@@ -169,7 +184,18 @@ public class Main {
             factura.addDetalleFactura(detalle3);
             factura.calcularTotal();
 
+            Factura factura1 = Factura.builder()
+                    .puntoVenta(2000)
+                    .fechaAlta(new Date())
+                    .fechaComprobante(FuncionApp.generateRandomDate())
+                    .cliente(cliente)
+                    .nroComprobante(FuncionApp.generateRandomNumber())
+                    .build();
+            factura1.addDetalleFactura(detalle1_2);
+            factura1.calcularTotal();
+
             em.persist(factura);
+            em.persist(factura1);
             em.getTransaction().commit();
 
             // Crear la consulta SQL nativa
@@ -180,10 +206,10 @@ public class Main {
             query.setParameter("id", 3L);
             ArticuloManufacturado articuloManufacturadoCon = (ArticuloManufacturado) query.getSingleResult();
 
-            System.out.println("Artículo manufacturado: " + articuloManufacturado.getDenominacion());
-            System.out.println("Descripción: " + articuloManufacturado.getDescripcion());
-            System.out.println("Tiempo estimado: " + articuloManufacturado.getTiempoEstimadoMinutos() + " minutos");
-            System.out.println("Preparación: " + articuloManufacturado.getPreparacion());
+            System.out.println("Artículo manufacturado: " + articuloManufacturadoCon.getDenominacion());
+            System.out.println("Descripción: " + articuloManufacturadoCon.getDescripcion());
+            System.out.println("Tiempo estimado: " + articuloManufacturadoCon.getTiempoEstimadoMinutos() + " minutos");
+            System.out.println("Preparación: " + articuloManufacturadoCon.getPreparacion());
 
             System.out.println("Líneas de detalle:");
             for (ArticuloManufacturadoDetalle detalle : articuloManufacturado.getDetalles()) {
